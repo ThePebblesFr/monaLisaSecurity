@@ -33,7 +33,23 @@
     switch ($_SERVER['REQUEST_METHOD'])
     {
         case 'GET':
-            phpinfo();
+            if (!empty($_POST['token']))
+            {
+                if ($_POST['token'] == $config_file->api_token)
+                {
+                    
+                }
+                else
+                {
+                    $output['exitcode'] = 403;
+                    $output['message'] = 'Access denied ! Wrong token ';
+                }
+            }
+            else
+            {
+                $output['exitcode'] = 403;
+                $output['message'] = 'Access denied ! Token required';
+            }
             break;
         case 'POST':
             if (!empty($_POST['token']))

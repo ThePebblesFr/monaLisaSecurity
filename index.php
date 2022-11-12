@@ -1,4 +1,19 @@
 <?php
+
+/*
+    __________________________________________________________________________
+   |                                                                          |
+   |                           MONA LISA SECURITY                             |
+   |                                                                          |
+   |    Author            :   P. GARREAU, M. JALES                            |
+   |    Status            :   Under Development                               |
+   |    Last Modification :   04/11/2022                                      |
+   |    Project           :   IoT PROJECT                                     |
+   |                                                                          |
+   |__________________________________________________________________________|
+
+*/
+
     include('variables.php');
 ?>
 <!DOCTYPE html>
@@ -75,7 +90,7 @@
                             <div class="celsiusData" id="temperatureValue"><?php echo number_format($outputGetLastData['temperature'], 2); ?>°C</div>
                             <div class="fahrneheitData" id="fahrenHeitValue">67.23°F</div>
                         </div>
-                        <div class="detailsItemContainer">See details</div>
+                        <div class="detailsItemContainer" id="detailsItemContainerTop">See details</div>
                     </section>
                 </section>
             </section>
@@ -150,7 +165,6 @@
                     data = JSON.parse(data);
                     for (var i = 6; i > 0; i--)
                     {
-                        console.log(data[i]);
                         chartNbData++;
                         if (data[i] != 0)
                         {
@@ -161,7 +175,6 @@
                             chartHourlyTemp.push(null);
                         }
                     }
-                    console.log(chartHourlyTemp);
                 }
             });
             setTimeout(function() {
@@ -175,8 +188,8 @@
                         label: '',
                         data: chartHourlyTemp,
                         fill: false,
-                        borderColor: colors[5],
-                        pointBackgroundColor: colors[5],
+                        borderColor: colors[0],
+                        pointBackgroundColor: colors[0],
                         tension: 0.2
                     }]
                 },
@@ -189,20 +202,20 @@
                     scales: {
                         x: {
                             grid: {
-                                color: colors[0],
-                                borderColor: colors[0]
+                                color: colors[5],
+                                borderColor: colors[5]
                             },
                             ticks: {
-                                color: colors[0],
+                                color: colors[5],
                             }
                         },
                         y: {
                             grid: {
-                                color: colors[0],
-                                borderColor: colors[0]
+                                color: colors[5],
+                                borderColor: colors[5]
                             },
                             ticks: {
-                                color: colors[0],
+                                color: colors[5],
                             }
                         }
                     }
@@ -226,7 +239,6 @@
                     data = JSON.parse(data);
                     for (var i = 6; i > 0; i--)
                     {
-                        console.log(data[i]);
                         chartNbData++;
                         if (data[i] != 0)
                         {
@@ -237,7 +249,6 @@
                             chartHourlyHum.push(null);
                         }
                     }
-                    console.log(chartHourlyHum);
                 }
             });
             setTimeout(function() {
@@ -302,7 +313,6 @@
                     data = JSON.parse(data);
                     for (var i = 6; i > 0; i--)
                     {
-                        console.log(data[i]);
                         chartNbData++;
                         if (data[i] != 0)
                         {
@@ -313,7 +323,6 @@
                             chartHourlyPress.push(null);
                         }
                     }
-                    console.log(chartHourlyPress);
                 }
             });
             setTimeout(function() {

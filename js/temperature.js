@@ -1,21 +1,21 @@
 /*
     __________________________________________________________________________
    |                                                                          |
-   |              MY WHEATHER STATION - TEMEPERATURE SCRIPT                   |
+   |                 MONA LISA SECURITY - TEMPERATURE SCRIPT                  |
    |                                                                          |
-   |    Author            :   M. JALES, P. GARREAU                            |
+   |    Author            :   P. GARREAU, M. JALES                            |
    |    Status            :   Under Development                               |
-   |    Last Modification :   16/09/2022                                      |
-   |    Project           :   EMBEDDED LINUX PROJECT                          |
+   |    Last Modification :   04/11/2022                                      |
+   |    Project           :   IoT PROJECT                                     |
    |                                                                          |
    |__________________________________________________________________________|
-   
+
 */
 
 /* ----------------------------------------------------------------------------
                                      INIT
 ---------------------------------------------------------------------------- */
-var urlData = "http://software-developments-pg.com/others/myWeatherStation/all_data.php";
+var urlData = "http://software-developments-pg.com/others/monaLisaSecurity/all_data.php";
 
 var iconsMenu = document.getElementsByClassName('menuIcon');
 var nameIconsMenu = Array('home', 'temperature', 'humidity', 'pressure');

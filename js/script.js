@@ -1,15 +1,15 @@
 /*
     __________________________________________________________________________
    |                                                                          |
-   |                     MY WHEATHER STATION - SCRIPT                         |
+   |                        MONA LISA SECURITY - SCRIPT                       |
    |                                                                          |
-   |    Author            :   M. JALES, P. GARREAU                            |
+   |    Author            :   P. GARREAU, M. JALES                            |
    |    Status            :   Under Development                               |
-   |    Last Modification :   16/09/2022                                      |
-   |    Project           :   EMBEDDED LINUX PROJECT                          |
+   |    Last Modification :   04/11/2022                                      |
+   |    Project           :   IoT PROJECT                                     |
    |                                                                          |
    |__________________________________________________________________________|
-   
+
 */
 
 /* ----------------------------------------------------------------------------
@@ -20,7 +20,7 @@
 var borderRadius = '30px';
 var daysOfTheWeek = Array('Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday');
 var monthsOfTheYear = Array('January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December');
-var colors = Array('#FFFFFF', '#EAEAEA', '#fdb813', '#0487E2', '#bc1142', '#000000');
+var colors = Array('#FFFFFF', '#ece8e9', '#dd7478', '#b4001b', '#c9dc82', '#232908');
 var nameIconsMenu = Array('home', 'temperature', 'humidity', 'pressure');
 
 // Items ----------------------------------------------------------------------
@@ -127,5 +127,5 @@ logoMines.addEventListener('click', function() {
 });
 
 contributorsContainer.addEventListener('click', function() {
-    window.open('https://github.com/ThePebblesFr/myWeatherStation', '_blank');
+    window.open('https://github.com/ThePebblesFr/monaLisaSecurity', '_blank');
 });
