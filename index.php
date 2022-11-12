@@ -14,7 +14,7 @@
 
 */
 
-    include('variables.php');
+    include('./backend/variables.php');
 ?>
 <!DOCTYPE html>
 <html>

@@ -120,24 +120,22 @@
                                 $requestGetAvgDay = $bddConn->query($getAvgDay);
                                 $outputGetAvgDay = $requestGetAvgDay->fetch();
                                 $nb_days = 0;
-                                while ($outputGetAvgDay['avg_temperature'] != NULL)
-                                {
-                                    echo '<canvas id="chart_detailed_temp'.$nb_days.'"></canvas>';
-                                    $day_x->modify('-1 day');
-                                    $day_x_1->modify('-1 day');
-                                    $getAvgDay = 'SELECT AVG(temperature) AS "avg_temperature" FROM data WHERE date_time >= "'.$day_x->format('Y-m-d').'" AND date_time < "'.$day_x_1->format('Y-m-d').'"';
-                                    $requestGetAvgDay = $bddConn->query($getAvgDay);
-                                    $outputGetAvgDay = $requestGetAvgDay->fetch();
-                                    
-                                    ?>
-                                    <script type="text/javascript">
-                                        var nb_days_1 = <?php echo json_encode($nb_days); ?>;
-                                        document.getElementById('chart_detailed_temp' + nb_days_1).style.display = (nb_days_1 > 0) ? 'none' : 'block';
-                                        chartHourlyTemp.push(Array());
-                                    </script>
-                                    <?php
-                                    $nb_days++;
-                                }
+                                echo '<canvas id="chart_detailed_temp'.$nb_days.'"></canvas>';
+                                $day_x->modify('-1 day');
+                                $day_x_1->modify('-1 day');
+                                $getAvgDay = 'SELECT AVG(temperature) AS "avg_temperature" FROM data WHERE date_time >= "'.$day_x->format('Y-m-d').'" AND date_time < "'.$day_x_1->format('Y-m-d').'"';
+                                $requestGetAvgDay = $bddConn->query($getAvgDay);
+                                $outputGetAvgDay = $requestGetAvgDay->fetch();
+                                
+                                ?>
+                                <script type="text/javascript">
+                                    var nb_days_1 = <?php echo json_encode($nb_days); ?>;
+                                    document.getElementById('chart_detailed_temp' + nb_days_1).style.display = (nb_days_1 > 0) ? 'none' : 'block';
+                                    chartHourlyTemp.push(Array());
+                                </script>
+                                <?php
+                                $nb_days++;
+                                
                             ?>
                         </div>
                     </section>
@@ -224,8 +222,8 @@
                         label: '',
                         data: chartHourlyTemp[0],
                         fill: false,
-                        borderColor: colors[5],
-                        pointBackgroundColor: colors[5],
+                        borderColor: colors[2],
+                        pointBackgroundColor: colors[2],
                         tension: 0.2
                     }]
                 },
@@ -238,20 +236,20 @@
                     scales: {
                         x: {
                             grid: {
-                                color: colors[0],
-                                borderColor: colors[0]
+                                color: colors[5],
+                                borderColor: colors[5]
                             },
                             ticks: {
-                                color: colors[0],
+                                color: colors[5],
                             }
                         },
                         y: {
                             grid: {
-                                color: colors[0],
-                                borderColor: colors[0]
+                                color: colors[5],
+                                borderColor: colors[5]
                             },
                             ticks: {
-                                color: colors[0],
+                                color: colors[5],
                             }
                         }
                     }
@@ -260,7 +258,7 @@
             }, 1000);
 
             var itemHistoricContainer = document.getElementsByClassName("itemHistoricContainer");
-            itemHistoricContainer[0].style.backgroundColor = colors[3];
+            itemHistoricContainer[0].style.backgroundColor = colors[4];
 
             for (var i = 0; i < itemHistoricContainer.length; i++)
             {
@@ -268,7 +266,7 @@
                     return function() {
                         for (var j = 0; j < itemHistoricContainer.length; j++)
                         {
-                            itemHistoricContainer[j].style.backgroundColor = (arg != j) ? 'transparent' : colors[3];
+                            itemHistoricContainer[j].style.backgroundColor = (arg != j) ? 'transparent' : colors[4];
                         }
                         urlRequest = urlData + '?data=temperature&day=' + datesHistoric[arg];
                         $.ajax({
@@ -302,8 +300,8 @@
                                         label: '',
                                         data: chartHourlyTemp[arg],
                                         fill: false,
-                                        borderColor: colors[5],
-                                        pointBackgroundColor: colors[5],
+                                        borderColor: colors[3],
+                                        pointBackgroundColor: colors[3],
                                         tension: 0.2
                                     }]
                                 },
@@ -316,20 +314,20 @@
                                     scales: {
                                         x: {
                                             grid: {
-                                                color: colors[0],
-                                                borderColor: colors[0]
+                                                color: colors[5],
+                                                borderColor: colors[5]
                                             },
                                             ticks: {
-                                                color: colors[0],
+                                                color: colors[5],
                                             }
                                         },
                                         y: {
                                             grid: {
-                                                color: colors[0],
-                                                borderColor: colors[0]
+                                                color: colors[5],
+                                                borderColor: colors[5]
                                             },
                                             ticks: {
-                                                color: colors[0],
+                                                color: colors[5],
                                             }
                                         }
                                     }
