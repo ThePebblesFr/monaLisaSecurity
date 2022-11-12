@@ -1,0 +1,368 @@
+/* ------------------- GLOBAL VARIABLES ------------------- */
+:root {
+    /* Colors */
+    --white-color: #ffffff;
+    --grey-color: #ece8e9;
+    --light-pink-color: #dd7478;
+    --pink-color: #b4001b;
+    --light-green-color: #c9dc82;
+    --green-color: #232908;
+
+    /* Sizes */
+    --left-section-width: 8%;
+    --border-radius-size: 35px;
+    --border-radius-little-size: 15px;
+}
+
+
+/* ------------------- ALL PAGES STYLES ------------------- */
+body {
+    font-family: "Trebuchet MS", Helvetica, Arial;
+    background-image: url("../assets/images/background_top_tiles.jpg");
+    background-size: cover;
+}
+
+.bodyContainer {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    width: calc(100% - var(--left-section-width));
+    height: 90vh;
+    background-color: var(--white-color);
+    border-radius: var(--border-radius-size);
+    border-bottom-right-radius: 0;
+}
+
+.leftContainer {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: var(--left-section-width);
+    height: 100vh;
+    color: var(--white-color);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+.logoMinesContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.logoMines {
+    width: 60%;
+    position: absolute;
+    bottom: 5%;
+    cursor: pointer;
+}
+
+.menuContainer {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    height: 50vh;
+    background-color: transparent;
+}
+
+.menuItemContainer, .fakeItemContainer {
+    height: 25%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    background-color: transparent;
+}
+
+.menuItemContainer {
+    cursor: pointer;
+}
+
+.fakeItemContainer {
+    height: 60px;
+}
+
+.menuItemContainer:hover {
+    background-color: var(--white-color);
+    border-top-left-radius: var(--border-radius-size);
+    border-bottom-left-radius: var(--border-radius-size);
+}
+
+.menuIcon {
+    transition: all 0.2s ease;
+    width: 35%;
+}
+
+.topContainer {
+    position: fixed;
+    left: 1.5%;
+    top: 0;
+    width: 96%;
+    height: 10vh;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.titleTopContainer {
+    font-size: 20px;
+    color: var(--white-color);
+}
+
+.pdpImage {
+    height: 8vh;
+    border-radius: 8vh;
+}
+
+#imagePierre {
+    position: relative;
+    right: 10%;
+    z-index: 0;
+}
+
+#imageMickael {
+    position: relative;
+    z-index: 1;
+}
+
+.contributorsContainer {
+    width: 15%;
+    color: var(--white-color);
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.contributors {
+    opacity: 0;
+    width: 0;
+    transition: width 0.4s ease, opacity 0.4s ease;
+    transition-delay: opacity 0.2s;
+}
+
+@media(hover:hover) {
+    .contributorsContainer:hover .contributors {
+        opacity: 1;
+        width: 100%;
+        transition: width 0.4s ease, opacity 0.4s ease;
+        transition-delay: width 0.2s;
+    }
+}
+
+.logoWeatherStationContainer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;    
+}
+
+.logoWeatherStation {
+    cursor: pointer;
+    transition: all 0.2s ease;
+    height: 10vh;
+}
+
+.topBodyContainer, .bottomBodyContainer {
+    position: relative;
+    top: 4%;
+    left: 2.5%;
+    right: 2.5%;
+    width: 95%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.bottomBodyContainer {
+    top: 8%;
+}
+
+.topLeftBodyContainer, .bottomLeftBodyContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    width: 48.5%;
+    height: 40vh;
+    background-image: url('../assets/images/background_bottom_tiles.jpg');
+    background-size: cover;
+    border-radius: var(--border-radius-size);
+}
+
+.bottomLeftBodyContainer {
+    background-image: url('../assets/images/background_top_tiles.jpg');
+}
+
+.topRightBodyContainer {
+    width: 48.5%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    background-image: url('../assets/images/background_bottom_tiles.jpg');
+    background-size: cover;
+    border-radius: var(--border-radius-size);
+}
+
+.bottomRightBodyContainer {
+    width: 48.5%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    background-image: url('../assets/images/background_top_tiles.jpg');
+    background-size: cover;
+    border-radius: var(--border-radius-size);
+}
+
+.graphContainer, .dateTimeContainer {
+    color: var(--green-color);
+    width: 60%;
+    height: 95%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.titleDataHome {
+    text-align: center;
+    font-size: 25px;
+    color: var(--green-color);
+}
+
+.graphSubContainer {
+    width: 95%;
+    height: calc(100% - 50px);
+}
+
+.dataHomeContainer {
+    border-radius: var(--border-radius-size);
+    width: 27%;
+    height: 90%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.dataItemContainer {
+    width: 100%;
+    height: 65%;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.detailsItemContainer {
+    background-color: var(--white-color);
+    width: 80%;
+    height: 20%;
+    border-radius: var(--border-radius-little-size);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: var(--blue-color);
+    cursor: pointer;
+    transition: all 0.1s ease;
+}
+
+.detailsItemContainer:hover {
+    background-color: var(--grey-color);
+}
+
+.celsiusData {
+    color: var(--green-color);
+    font-size: 35px;
+}
+
+.fahrneheitData {
+    color: var(--grey-color);
+    font-size: 20px;
+}
+
+.realTimeTemperatureIcon {
+    width: 40%;
+}
+
+.dayNightContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+}
+
+.realTimeDayNightIcon {
+    width: 70%;
+}
+
+.dateTimeContainer {
+    color: var(--green-color);
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.timeContainer {
+    font-size: 95px;
+}
+
+.dateContainer {
+    font-size: 25px;
+}
+
+/* LOADER */
+
+.loaderContainer, .loaderHomeContainer {
+    position: absolute;
+    width: 48%;
+    height: 40vh;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.loaderHomeContainer {
+    width: 30%;
+    height: 25vh;
+}
+
+.loader-wrapper {
+	width: 50px;
+	height: 50px;
+}
+
+.loader {
+	box-sizing: border-box;
+	width: 100%;
+	height: 100%;
+	border: 3px solid transparent;
+	border-top-color: var(--black-color);
+	border-bottom-color: var(--black-color);
+	border-radius: 50%;
+	animation: rotate 5s linear infinite;
+}
+
+.loader-inner {
+	border-top-color: var(--black-color);
+	border-bottom-color: var(--black-color);
+	animation-duration: 2.5s;
+}
+
+@keyframes rotate {
+	0% {
+		transform: scale(1) rotate(360deg);
+	}
+	50% {
+		transform: scale(.8) rotate(-360deg);
+	}
+	100% {
+		transform: scale(1) rotate(360deg);
+	}
+}
