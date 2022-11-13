@@ -137,6 +137,25 @@
                 </div>
             </div>
         </div>
+        <div id="overlay_alert" class="overlay_alert">
+            <div id="popup_alert" class="popup_alert">
+                <h2 class="headerPopup">
+                    <div class="popupTitle">ALERT - Intrusion detected</div>
+                </h2>
+                <div class="popupDescription">
+                    <img src="assets/images/braquage.png" class="braquageImg"/>
+                    <br />
+                    <div>Our system detected an intrusion in the museum ! Mona Lisa is under attack ! Please call 911 !</div>
+                    <form method="POST" action="">
+                        <br />
+                        <div style="width:100%;text-align:center;"><label for="comment">Comment</label></div>
+                        <div><textarea name="comment" rows="5" cols="80"></textarea></div>
+                        <br/>
+                        <div class="overArmingButton"><input type="submit" value="Re-arm the system" name="rearm" class="armingButton"/></div>
+                    </form>
+                </div>
+            </div>
+        </div>
         <script type="text/javascript" src="js/script.js"></script>
         <script type="text/javascript" src="js/index.js"></script>
         <script type="text/javascript" src="js/dimensions.js"></script>
@@ -296,3 +315,18 @@
         </script>
     </body>
 </html>
+<?php
+    if (isset($_POST['rearm']))
+    {
+        $dateTimeRearm = date('Y-m-d H:i:s');
+        $comment = htmlspecialcharsr($_POST['comment']);
+
+        $sql = 'UPDATE reports SET comment = :comment, date_time_rearmement = :date_time_rearmement WHERE id_report = (SELECT * FROM reports ORDER BY id_report DESC LIMIT 1)';
+
+        $request = $bddConn->prepare($sql);
+        $request->bindParam(':date_time_rearmement', $dateTimeRearm);
+        $request->bindParam(':comment', $comment);
+
+        $request->execute();
+    }
+?>

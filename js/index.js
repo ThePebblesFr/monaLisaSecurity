@@ -40,6 +40,9 @@ var port = 8000;
 var topicStr = "Pierre/Temp";
 
 var connected = false;
+var alert_intrusion_acceleration = false;
+var alert_intrusion_temperature = false;
+var alert_intrusion_humidity = false;
 
 /* ----------------------------------------------------------------------------
                                     MAIN
@@ -80,13 +83,20 @@ setInterval(function() {
 }, 100);
 
 setInterval(function() {
-
     if (!connected)
     {
         overlay_home.style.display = 'block';
         popup_home.style.display = 'block';
     }
 }, 5000);
+
+setInterval(function() {
+    if (alert_intrusion_acceleration || alert_intrusion_temperature || alert_intrusion_temperature)
+    {
+        overlay_alert.style.display = 'block';
+        popup_alert.style.display = 'block';
+    }
+}, 500);
 
 btnClose.addEventListener('click', function() {
     overlay_home.style.display = 'none';
@@ -138,11 +148,26 @@ function onMessageArrived(message) {
 	var payload = message.payloadString;
     
     payload = JSON.parse(payload);
-    temperatureValue.innerText = payload.temperature + "°C";
-    humidityValue.innerText = payload.humidity + "%";
+    if (payload.temperature != null) {
+        temperatureValue.innerText = payload.temperature + "°C";
+        humidityValue.innerText = payload.humidity + "%";
+        var fahrenHeitTemp = Math.round((parseFloat(temperatureValue.innerText.substring(0,5)) * (9 / 5) + 32) * 100) / 100;
+        fahrenHeitValue.innerHTML = fahrenHeitTemp.toString() + "°F";
 
-    var fahrenHeitTemp = Math.round((parseFloat(temperatureValue.innerText.substring(0,5)) * (9 / 5) + 32) * 100) / 100;
-    fahrenHeitValue.innerHTML = fahrenHeitTemp.toString() + "°F";
+        if (payload.alert_temperature == "1") {
+            alert_intrusion_temperature = true;
+        }
+        if (payload.alert_humidity == "1") {
+            alert_intrusion_humidity = true;
+        }
+    }
+    else if (payload.alert_acceleration != null) {
+        if (payload.alert_acceleration == "1")
+        {
+            alert_intrusion_acceleration = true;
+        }
+    }
+    
     // accelerationXValue.innerText = payload.acceleration_x;
     // accelerationYValue.innerText = payload.acceleration_y;
     // accelerationZValue.innerText = payload.acceleration_z;

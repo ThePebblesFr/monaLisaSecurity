@@ -54,6 +54,7 @@
         <title>Sécurité de Mona Lisa - Humidity</title>
         <script type="text/javascript" src="js/jQuery.js"></script>
         <script src="node_modules/chart.js/dist/chart.js"></script>
+        <script src="js/mqttws31.js" type="text/javascript"></script>
         <script type="text/javascript">
             var datesHistoric = Array();
             var chartHourlyHum = Array(Array());
@@ -101,7 +102,7 @@
                                 <img src="assets/images/humidity_icon_colored.png" class="iconDetailedPage"/>
                             </section>
                             <section class="dataItemDetailedPageContainer">
-                                <div class="celsiusData" id="humidityValue"><?php echo number_format($outputGetLastData['humidity'], 2); ?>%</div>
+                                <div class="celsiusData" id="humidityValue"> %</div>
                             </section>
                         </div>
                         <section class="dateTimeDetailedPageContainer">
@@ -188,12 +189,18 @@
         <script type="text/javascript" src="js/humidity.js"></script>
         <script type="text/javascript" src="js/dimensions.js"></script>
         <script type="text/javascript">
+            
+            // MQTT Communication
+            $(document).ready(function() {
+                MQTTconnect();
+            });
+
             var today = new Date();
             var dayNumber = (today.getDate() < 10) ? '0' + today.getDate() : today.getDate();
             var realMonth = parseInt(today.getMonth()) + 1;
             var monthNumber = (realMonth < 10) ? '0' + realMonth : realMonth;
             var chartNbData = 0;
-            var urlRequest = 'http://software-developments-pg.com/others/monaLisaSecurity/backend/all_data.php??data=humidity&day=' + today.getFullYear() + '-' + monthNumber + '-' + dayNumber;
+            var urlRequest = 'http://software-developments-pg.com/others/monaLisaSecurity/backend/all_data.php?data=humidity&day=' + today.getFullYear() + '-' + monthNumber + '-' + dayNumber;
             $.ajax({
                 type: 'GET',
                 url: urlRequest,

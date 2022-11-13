@@ -53,6 +53,7 @@
         <link rel="icon" type="image/x-icon" href="assets/images/monaLisa_icon.ico" />
         <title>Sécurité de Mona Lisa - Température</title>
         <script type="text/javascript" src="js/jQuery.js"></script>
+        <script src="js/mqttws31.js" type="text/javascript"></script>
         <script src="node_modules/chart.js/dist/chart.js"></script>
         <script type="text/javascript">
             var datesHistoric = Array();
@@ -101,7 +102,7 @@
                                 <img src="assets/images/temperature_icon_colored.png" class="iconDetailedPage"/>
                             </section>
                             <section class="dataItemDetailedPageContainer">
-                                <div class="celsiusData" id="temperatureValue"><?php echo number_format($outputGetLastData['temperature'], 2); ?>°C</div>
+                                <div class="celsiusData" id="temperatureValue"> °C</div>
                                 <div class="fahrneheitData" id="fahrenHeitValue"> °F</div>
                             </section>
                         </div>
@@ -189,6 +190,12 @@
         <script type="text/javascript" src="js/temperature.js"></script>
         <script type="text/javascript" src="js/dimensions.js"></script>
         <script type="text/javascript">
+            
+            // MQTT Communication
+            $(document).ready(function() {
+                MQTTconnect();
+            });
+
             var today = new Date();
             var dayNumber = (today.getDate() < 10) ? '0' + today.getDate() : today.getDate();
             var realMonth = parseInt(today.getMonth()) + 1;
