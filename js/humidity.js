@@ -1,24 +1,24 @@
 /*
     __________________________________________________________________________
    |                                                                          |
-   |                    MONA LISA SECURITY - HUMIDITY SCRIPT                  |
+   |              MY WHEATHER STATION - HUMIDITY SCRIPT                       |
    |                                                                          |
-   |    Author            :   P. GARREAU, M. JALES                            |
+   |    Author            :   M. JALES, P. GARREAU                            |
    |    Status            :   Under Development                               |
-   |    Last Modification :   04/11/2022                                      |
-   |    Project           :   IoT PROJECT                                     |
+   |    Last Modification :   16/09/2022                                      |
+   |    Project           :   EMBEDDED LINUX PROJECT                          |
    |                                                                          |
    |__________________________________________________________________________|
-
+   
 */
 
 /* ----------------------------------------------------------------------------
                                      INIT
 ---------------------------------------------------------------------------- */
-var urlData = "http://software-developments-pg.com/others/monaLisaSecurity/all_data.php";
+var urlData = "http://software-developments-pg.com/others/myWeatherStation/all_data.php";
 
 var iconsMenu = document.getElementsByClassName('menuIcon');
-var nameIconsMenu = Array('home', 'temperature', 'humidity', 'pressure');
+var nameIconsMenu = Array('home', 'temperature', 'humidity', 'report');
 
 var humidityValue = document.getElementById('humidityValue');
 var dayNightIcon = document.getElementById('dayNightIcon');

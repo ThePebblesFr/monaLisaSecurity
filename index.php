@@ -1,5 +1,9 @@
 <?php
     include('backend/variables.php');
+
+    $sql = "SELECT COUNT(*) AS 'nb_reports' FROM reports";
+    $request = $bddConn->query($sql);
+    $request_output = $request->fetch();
 ?>
 <!DOCTYPE html>
 <html>
@@ -26,7 +30,7 @@
                     <img src="assets/images/humidity_icon.png" class="menuIcon"/>
                 </div>
                 <div class="menuItemContainer">
-                    <img src="assets/images/pressure_icon.png" class="menuIcon"/>
+                    <img src="assets/images/report_icon.png" class="menuIcon"/>
                 </div>
                 <div class="fakeItemContainer"></div>
             </section>
@@ -105,22 +109,15 @@
                 </section>
                 <section class="bottomRightBodyContainer">
                     <section class="graphContainer">
-                        <div class="titleDataHome" style="color: var(--white-color);">Acceleration</div>
+                        <div class="titleDataHome" style="color: var(--white-color);">Reports</div>
                         <div class="graphSubContainer">
-                            <div class="loaderHomeContainer" id="loaderPressure">
-                                <div class="loader-wrapper">
-                                    <div class="loader">
-                                        <div class="loader loader-inner"></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <canvas id="chart_detailed_press"></canvas>
+                            
                         </div>
                     </section>
                     <section class="dataHomeContainer">
                         <div class="dataItemContainer">
-                            <div ><img src="assets/images/pressure_icon.png" class="realTimeTemperatureIcon" /></div>
-                            <div class="celsiusData" style="color: var(--white-color);" id="accelerationXvalue"><?php echo number_format($outputGetLastData['acceleration_x'], 0, '', ''); ?></div>
+                            <div ><img src="assets/images/report_icon.png" class="realTimeTemperatureIcon" /></div>
+                            <div class="celsiusData" style="color: var(--white-color);" id="accelerationXvalue"><?php echo $request_output['nb_reports']; ?></div>
                         </div>
                         <div class="detailsItemContainer">See details</div>
                     </section>
@@ -266,80 +263,6 @@
                     datasets: [{
                         label: '',
                         data: chartHourlyHum,
-                        fill: false,
-                        borderColor: colors[5],
-                        pointBackgroundColor: colors[5],
-                        tension: 0.2
-                    }]
-                },
-                options: {
-                    plugins: {
-                        legend: {
-                            display: false
-                        }
-                    },
-                    scales: {
-                        x: {
-                            grid: {
-                                color: colors[0],
-                                borderColor: colors[0]
-                            },
-                            ticks: {
-                                color: colors[0],
-                            }
-                        },
-                        y: {
-                            grid: {
-                                color: colors[0],
-                                borderColor: colors[0]
-                            },
-                            ticks: {
-                                color: colors[0],
-                            }
-                        }
-                    }
-                }
-            });
-            }, 1000);
-        </script>
-        <script type="text/javascript">
-            var today = new Date();
-            var dayNumber = (today.getDate() < 10) ? '0' + today.getDate() : today.getDate();
-            var timeOfSixLastHours = Array(today.getHours()-5 +'h', today.getHours()-4 +'h', today.getHours()-3 +'h', today.getHours()-2 +'h', today.getHours()-1 +'h', today.getHours() +'h');            
-            var realMonth = parseInt(today.getMonth()) + 1;
-            var monthNumber = (realMonth < 10) ? '0' + realMonth : realMonth;
-            var chartNbData = 0;
-            var chartHourlyPress = Array();
-            var urlRequest = urlData + '?data=pressure&day=' + today.getFullYear() + '-' + monthNumber + '-' + dayNumber;
-            $.ajax({
-                type: 'GET',
-                url: urlRequest,
-                success: function(data) {
-                    data = JSON.parse(data);
-                    for (var i = 6; i > 0; i--)
-                    {
-                        chartNbData++;
-                        if (data[i] != 0)
-                        {
-                            chartHourlyPress.push(parseFloat(data[i]));
-                        }
-                        else
-                        {
-                            chartHourlyPress.push(null);
-                        }
-                    }
-                }
-            });
-            setTimeout(function() {
-                loaderPressure.style.display = "none";
-                const ctx_detailed_press = document.getElementById('chart_detailed_press').getContext('2d');
-                const chartDetailedPressure = new Chart(ctx_detailed_press, {
-                type: 'line',
-                data: {
-                    labels: timeOfSixLastHours,
-                    datasets: [{
-                        label: '',
-                        data: chartHourlyPress,
                         fill: false,
                         borderColor: colors[5],
                         pointBackgroundColor: colors[5],

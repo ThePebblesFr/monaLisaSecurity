@@ -21,7 +21,7 @@ var borderRadius = '30px';
 var daysOfTheWeek = Array('Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday');
 var monthsOfTheYear = Array('January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December');
 var colors = Array('#FFFFFF', '#ece8e9', '#dd7478', '#b4001b', '#c9dc82', '#232908');
-var nameIconsMenu = Array('home', 'temperature', 'humidity', 'pressure');
+var nameIconsMenu = Array('home', 'temperature', 'humidity', 'report');
 
 // Items ----------------------------------------------------------------------
 var itemsMenu = document.getElementsByClassName('menuItemContainer');

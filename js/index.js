@@ -18,7 +18,7 @@
 var urlData = "http://software-developments-pg.com/others/myWeatherStation/all_data.php";
 
 var iconsMenu = document.getElementsByClassName('menuIcon');
-var nameIconsMenu = Array('home', 'temperature', 'humidity', 'pressure');
+var nameIconsMenu = Array('home', 'temperature', 'humidity', 'report');
 
 var detailsItemContainer = document.getElementsByClassName('detailsItemContainer');
 var fahrenHeitValue = document.getElementById('fahrenHeitValue');
@@ -28,6 +28,7 @@ var timeContainer = document.getElementById('timeContainer');
 
 var temperatureValue = document.getElementById('temperatureValue');
 var humidityValue = document.getElementById('humidityValue');
+var reportValue = document.getElementById('reportValue');
 
 var btnClose = document.getElementById('btnClose');
 var overlay_home = document.getElementById('overlay_home');

@@ -73,7 +73,7 @@
                     <img src="assets/images/humidity_icon.png" class="menuIcon"/>
                 </div>
                 <div class="menuItemContainer">
-                    <img src="assets/images/pressure_icon.png" class="menuIcon"/>
+                    <img src="assets/images/report_icon.png" class="menuIcon"/>
                 </div>
                 <div class="fakeItemContainer"></div>
             </section>
