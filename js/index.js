@@ -1,31 +1,43 @@
 /*
     __________________________________________________________________________
    |                                                                          |
-   |                     MONA LISA SECURITY - CHARTS INDEX                    |
+   |                 MY WHEATHER STATION - CHARTS INDEX                       |
    |                                                                          |
-   |    Author            :   P. GARREAU, M. JALES                            |
+   |    Author            :   M. JALES, P. GARREAU                            |
    |    Status            :   Under Development                               |
-   |    Last Modification :   04/11/2022                                      |
-   |    Project           :   IoT PROJECT                                     |
+   |    Last Modification :   16/09/2022                                      |
+   |    Project           :   EMBEDDED LINUX PROJECT                          |
    |                                                                          |
    |__________________________________________________________________________|
-
+   
 */
 
 /* ----------------------------------------------------------------------------
                                      INIT
 ---------------------------------------------------------------------------- */
-var urlData = "http://software-developments-pg.com/others/monaLisaSecurity/all_data.php";
+var urlData = "http://software-developments-pg.com/others/myWeatherStation/all_data.php";
 
 var iconsMenu = document.getElementsByClassName('menuIcon');
 var nameIconsMenu = Array('home', 'temperature', 'humidity', 'pressure');
 
 var detailsItemContainer = document.getElementsByClassName('detailsItemContainer');
-
 var fahrenHeitValue = document.getElementById('fahrenHeitValue');
 var dayNightIcon = document.getElementById('dayNightIcon');
 var dateContainer = document.getElementById('dateContainer');
 var timeContainer = document.getElementById('timeContainer');
+
+var temperatureValue = document.getElementById('temperatureValue');
+var humidityValue = document.getElementById('humidityValue');
+
+var btnClose = document.getElementById('btnClose');
+var overlay_home = document.getElementById('overlay_home');
+var popup_home = document.getElementById('popup_home');
+
+// MQTT communication
+var mqtt;
+var reconnectTimeout = 2000;
+var port = 8000;
+var topicStr = "Pierre/Temp";
 
 /* ----------------------------------------------------------------------------
                                     MAIN
@@ -47,9 +59,6 @@ for (var i = 0; i < iconsMenu.length; i++) {
 
 // Data conversion and icons --------------------------------------------------
 
-var fahrenHeitTemp = Math.round((parseFloat(temperatureValue.innerText.substring(0,5)) * (9 / 5) + 32) * 100) / 100;
-fahrenHeitValue.innerHTML = fahrenHeitTemp.toString() + "°F";
-
 // Date and time --------------------------------------------------------------
 
 var today = new Date();
@@ -63,6 +72,13 @@ setInterval(function() {
     dayNightIcon.src = (dayTime(today.getHours())) ? 'assets/images/day_icon.png' : 'assets/images/night_icon.png';
 }, 1000);
 
+// Popup ----------------------------------------------------------------------
+
+btnClose.addEventListener('click', function() {
+    overlay_home.style.display = 'none';
+    popup_home.style.display = 'none';
+});
+
 /* ----------------------------------------------------------------------------
                                 FUCNTIONS
 ---------------------------------------------------------------------------- */
@@ -74,3 +90,50 @@ function timelayout(num) {
 function dayTime(time) {
     return (time > 8 && time < 20);
 }
+
+function MQTTconnect() {
+	mqtt = new Paho.MQTT.Client("broker.hivemq.com",port,"/mqtt","web_" + parseInt(Math.random() * 100, 10) );
+	var options = {
+		timeout: 3,
+		useSSL: false,
+		cleanSession: true,
+		onSuccess: onConnect,
+		onFailure: function (message) {
+			$('#status').val("Connection failed: " + message.errorMessage + "Retrying");
+			setTimeout(MQTTconnect, reconnectTimeout);
+		}
+	};
+	mqtt.onConnectionLost = onConnectionLost;
+	mqtt.onMessageArrived = onMessageArrived;
+	mqtt.connect(options);
+}
+function onConnect() {
+	$('#status').val('Connected to host ');
+	// Connection succeeded; subscribe to our topic
+	mqtt.subscribe(topicStr, {qos: 0});
+	$('#topic').val(topicStr)
+}
+function onConnectionLost(response) {
+	setTimeout(MQTTconnect, reconnectTimeout);
+	$('#status').val("connection lost: " + response.errorMessage + ". Reconnecting");
+};
+function onMessageArrived(message) {
+	var topic = message.destinationName;
+	var payload = message.payloadString;
+    
+    payload = JSON.parse(payload);
+
+    temperatureValue.innerText = payload.temperature + "°C";
+    humidityValue.innerText = payload.humidity + "%";
+
+    var fahrenHeitTemp = Math.round((parseFloat(temperatureValue.innerText.substring(0,5)) * (9 / 5) + 32) * 100) / 100;
+    fahrenHeitValue.innerHTML = fahrenHeitTemp.toString() + "°F";
+    // accelerationXValue.innerText = payload.acceleration_x;
+    // accelerationYValue.innerText = payload.acceleration_y;
+    // accelerationZValue.innerText = payload.acceleration_z;
+	// chartTemperature.data.labels.push(nbData);
+	// chartTemperature.data.datasets.forEach((dataset) => {
+    //     dataset.data.push(parseInt(payload));
+    // });
+	// chartTemperature.update();
+};

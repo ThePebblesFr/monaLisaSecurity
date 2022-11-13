@@ -1,28 +1,14 @@
 <?php
-
-/*
-    __________________________________________________________________________
-   |                                                                          |
-   |                           MONA LISA SECURITY                             |
-   |                                                                          |
-   |    Author            :   P. GARREAU, M. JALES                            |
-   |    Status            :   Under Development                               |
-   |    Last Modification :   04/11/2022                                      |
-   |    Project           :   IoT PROJECT                                     |
-   |                                                                          |
-   |__________________________________________________________________________|
-
-*/
-
-    include('./backend/variables.php');
+    include('backend/variables.php');
 ?>
 <!DOCTYPE html>
 <html>
     <head>
         <meta charset="utf-8" />
         <link rel="stylesheet" href="css/style.css" />
-        <title>Sécurité de Mona Lisa - Bienvenue</title>
+        <title>Mona Lisa Security - Welcome</title>
         <script type="text/javascript" src="js/jQuery.js"></script>
+        <script src="js/mqttws31.js" type="text/javascript"></script>
         <script src="node_modules/chart.js/dist/chart.js"></script>
         <link rel="icon" type="image/x-icon" href="assets/images/monaLisa_icon.ico" />
     </head>
@@ -87,8 +73,8 @@
                     <section class="dataHomeContainer">
                         <div class="dataItemContainer">
                             <div><img src="assets/images/temperature_icon_colored.png" class="realTimeTemperatureIcon" id="temperatureIcon"/></div>
-                            <div class="celsiusData" id="temperatureValue"><?php echo number_format($outputGetLastData['temperature'], 2); ?>°C</div>
-                            <div class="fahrneheitData" id="fahrenHeitValue">67.23°F</div>
+                            <div class="celsiusData" id="temperatureValue"> °C</div>
+                            <div class="fahrneheitData" id="fahrenHeitValue"> °F</div>
                         </div>
                         <div class="detailsItemContainer" id="detailsItemContainerTop">See details</div>
                     </section>
@@ -134,17 +120,35 @@
                     <section class="dataHomeContainer">
                         <div class="dataItemContainer">
                             <div ><img src="assets/images/pressure_icon.png" class="realTimeTemperatureIcon" /></div>
-                            <div class="celsiusData" style="color: var(--white-color);"><?php echo number_format($outputGetLastData['acceleration'], 0, '', ''); ?> m/s²</div>
+                            <div class="celsiusData" style="color: var(--white-color);" id="accelerationXvalue"><?php echo number_format($outputGetLastData['acceleration_x'], 0, '', ''); ?></div>
                         </div>
                         <div class="detailsItemContainer">See details</div>
                     </section>
                 </section>
             </section>
         </section>
+        <div id="overlay_home" class="overlay_home">
+            <div id="popup_home" class="popup_home">
+                <h2 class="headerPopup">
+                    <div class="popupTitle">WARNING - Security system disabled</div>
+                    <span id="btnClose" class="btnClose">&times;</span>
+                </h2>
+                <div class="popupDescription">
+                    <img src="assets/images/disconnected_devices.png" class="disconnectedDevicesImg"/>
+                    <br />
+                    <div>It seems that the security system is not plugged or is turned off. Please call an operator.</div>
+                </div>
+            </div>
+        </div>
         <script type="text/javascript" src="js/script.js"></script>
         <script type="text/javascript" src="js/index.js"></script>
         <script type="text/javascript" src="js/dimensions.js"></script>
         <script type="text/javascript">
+            // MQTT Communication
+            $(document).ready(function() {
+                MQTTconnect();
+            });
+
             var loaderTemperature = document.getElementById('loaderTemperature');
             var loaderHumidity = document.getElementById('loaderHumidity');
             var loaderPressure = document.getElementById('loaderPressure');
@@ -156,6 +160,7 @@
             var monthNumber = (realMonth < 10) ? '0' + realMonth : realMonth;
             var chartNbData = 0;
             var chartHourlyTemp = Array();
+            var urlData = "http://software-developments-pg.com/others/monaLisaSecurity/backend/all_data.php";
             var urlRequest = urlData + '?data=temperature&day=' + today.getFullYear() + '-' + monthNumber + '-' + dayNumber;
             $.ajax({
                 type: 'GET',

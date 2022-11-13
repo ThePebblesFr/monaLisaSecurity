@@ -302,8 +302,8 @@
                                         label: '',
                                         data: chartHourlyTemp[arg],
                                         fill: false,
-                                        borderColor: colors[3],
-                                        pointBackgroundColor: colors[3],
+                                        borderColor: colors[2],
+                                        pointBackgroundColor: colors[2],
                                         tension: 0.2
                                     }]
                                 },

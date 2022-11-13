@@ -257,8 +257,8 @@
                         label: '',
                         data: chartHourlyHum[0],
                         fill: false,
-                        borderColor: colors[5],
-                        pointBackgroundColor: colors[5],
+                        borderColor: colors[2],
+                        pointBackgroundColor: colors[2],
                         tension: 0.2
                     }]
                 },
@@ -271,20 +271,20 @@
                     scales: {
                         x: {
                             grid: {
-                                color: colors[0],
-                                borderColor: colors[0]
+                                color: colors[5],
+                                borderColor: colors[5]
                             },
                             ticks: {
-                                color: colors[0],
+                                color: colors[5],
                             }
                         },
                         y: {
                             grid: {
-                                color: colors[0],
-                                borderColor: colors[0]
+                                color: colors[5],
+                                borderColor: colors[5]
                             },
                             ticks: {
-                                color: colors[0],
+                                color: colors[5],
                             }
                         }
                     }
@@ -293,7 +293,7 @@
             }, 1000);
 
             var itemHistoricContainer = document.getElementsByClassName("itemHistoricContainer");
-            itemHistoricContainer[0].style.backgroundColor = colors[3];
+            itemHistoricContainer[0].style.backgroundColor = colors[4];
 
             for (var i = 0; i < itemHistoricContainer.length; i++)
             {
@@ -301,7 +301,7 @@
                     return function() {
                         for (var j = 0; j < itemHistoricContainer.length; j++)
                         {
-                            itemHistoricContainer[j].style.backgroundColor = (arg != j) ? 'transparent' : colors[3];
+                            itemHistoricContainer[j].style.backgroundColor = (arg != j) ? 'transparent' : colors[4];
                         }
                         urlRequest = urlData + '?data=pressure&day=' + datesHistoric[arg];
                         $.ajax({
@@ -335,8 +335,8 @@
                                         label: '',
                                         data: chartHourlyHum[arg],
                                         fill: false,
-                                        borderColor: colors[5],
-                                        pointBackgroundColor: colors[5],
+                                        borderColor: colors[2],
+                                        pointBackgroundColor: colors[2],
                                         tension: 0.2
                                     }]
                                 },
@@ -349,20 +349,20 @@
                                     scales: {
                                         x: {
                                             grid: {
-                                                color: colors[0],
-                                                borderColor: colors[0]
+                                                color: colors[5],
+                                                borderColor: colors[5]
                                             },
                                             ticks: {
-                                                color: colors[0],
+                                                color: colors[5],
                                             }
                                         },
                                         y: {
                                             grid: {
-                                                color: colors[0],
-                                                borderColor: colors[0]
+                                                color: colors[5],
+                                                borderColor: colors[5]
                                             },
                                             ticks: {
-                                                color: colors[0],
+                                                color: colors[5],
                                             }
                                         }
                                     }
