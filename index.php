@@ -171,7 +171,6 @@
                     for (var i = today.getHours()-5; i <= today.getHours(); i++)
                     {
                         chartNbData++;
-                        console.log(data[i]);
                             if (data[i] != 0)
                                 chartHourlyTemp.push(parseFloat(data[i]));
                             else
@@ -242,7 +241,6 @@
                     for (var i = today.getHours()-5; i <= today.getHours(); i++)
                     {
                         chartNbData++;
-                        console.log(data[i]);
                         if (data[i] != 0)
                             chartHourlyHum.push(parseFloat(data[i]));
                         else

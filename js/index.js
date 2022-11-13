@@ -15,7 +15,7 @@
 /* ----------------------------------------------------------------------------
                                      INIT
 ---------------------------------------------------------------------------- */
-var urlData = "http://software-developments-pg.com/others/myWeatherStation/all_data.php";
+var urlData = "http://software-developments-pg.com/others/monaLisaSecurity/backend/all_data.php";
 
 var iconsMenu = document.getElementsByClassName('menuIcon');
 var nameIconsMenu = Array('home', 'temperature', 'humidity', 'report');

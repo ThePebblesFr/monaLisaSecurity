@@ -102,7 +102,7 @@
                             </section>
                             <section class="dataItemDetailedPageContainer">
                                 <div class="celsiusData" id="temperatureValue"><?php echo number_format($outputGetLastData['temperature'], 2); ?>°C</div>
-                                <div class="fahrneheitData" id="fahrenHeitValue">67.23°F</div>
+                                <div class="fahrneheitData" id="fahrenHeitValue"> °F</div>
                             </section>
                         </div>
                         <section class="dateTimeDetailedPageContainer">
@@ -194,7 +194,7 @@
             var realMonth = parseInt(today.getMonth()) + 1;
             var monthNumber = (realMonth < 10) ? '0' + realMonth : realMonth;
             var chartNbData = 0;
-            var urlRequest = urlData + '?data=temperature&day=' + today.getFullYear() + '-' + monthNumber + '-' + dayNumber;
+            var urlRequest = 'http://software-developments-pg.com/others/monaLisaSecurity/backend/all_data.php?data=temperature&day=' + today.getFullYear() + '-' + monthNumber + '-' + dayNumber;
             $.ajax({
                 type: 'GET',
                 url: urlRequest,
@@ -270,7 +270,7 @@
                         {
                             itemHistoricContainer[j].style.backgroundColor = (arg != j) ? 'transparent' : colors[4];
                         }
-                        urlRequest = urlData + '?data=temperature&day=' + datesHistoric[arg];
+                        urlRequest = 'http://software-developments-pg.com/others/monaLisaSecurity/backend/all_data.php?data=temperature&day=' + datesHistoric[arg];
                         $.ajax({
                             type: 'GET',
                             url: urlRequest,

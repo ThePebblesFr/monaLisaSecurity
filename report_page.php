@@ -74,7 +74,7 @@
         <script src="node_modules/chart.js/dist/chart.js"></script>
         <script type="text/javascript">
             var datesHistoric = Array();
-            var chartHourlyHum = Array(Array());
+            var chartHourlyRep = Array(Array());
         </script>
     </head>
     <body>
@@ -131,25 +131,25 @@
                         <section class="titleReportContainer">REPORTS</section>
                         <div class="reportHeaderOverContainer">
                             <div class="reportHeaderContainer">
-                                <section class="rowHeaderContainer">
-                                    <div class="nameColumnHeaderContainer">Date</div>
-                                    <div class="nameColumnHeaderContainer">Problem</div>
+                                <section class="columnTimeHeaderContainer">
+                                    <div class="timeColumnHeaderContainer">Date</div>
+                                    <div class="timeColumnHeaderContainer">Problem</div>
                                 </section>
-                                <section class="rowHeaderContainer">
-                                    <div class="nameColumnHeaderContainer">Date</div>
-                                    <div class="nameColumnHeaderContainer">Rearming</div>
+                                <section class="columnTimeHeaderContainer">
+                                    <div class="timeColumnHeaderContainer">Date</div>
+                                    <div class="timeColumnHeaderContainer">Rearming</div>
                                 </section>
-                                <section class="rowHeaderContainer">
+                                <section class="columnTimeHeaderContainer">
                                     <div class="nameColumnHeaderContainer">Cause</div>
                                 </section>
-                                <section class="rowHeaderContainer">
+                                <section class="columnHeaderContainer">
                                     <div class="nameColumnHeaderContainer">Comment</div>
                                 </section>
                             </div>
                         </div>
-                        <div class="listReportContainer" id="products_meilleur_consommateur">
+                        <div class="listReportContainer">
                            <?php
-                                $getListReportDaily = 'SELECT * FROM reports WHERE date_time_report >= "'.$day.'" AND date_time_report < "'.$day_plus_1.'"';
+                                $getListReportDaily = 'SELECT * FROM reports ';
                                 $requestGetListReportDaily = $bddConn->query($getListReportDaily);
                                 while ($outputGetListReportDaily = $requestGetListReportDaily->fetch()) 
                                 {
@@ -160,65 +160,29 @@
                                     $humidity = $outputGetListReportDaily['humidity'];
                                     $acceleration = $outputGetListReportDaily['acceleration'];
                                     $comment = $outputGetListReportDaily['comment'];
-                                    echo '<div class="rowReportContainer">' . substr($dateTimeReport, 11, -3) . '</div>';
-                                    echo '<div class="rowReportContainer">' . substr($dateTimeRearmement, 11, -3) . '</div>';
-                                    echo '<div class="rowReportContainer">';
+                                    echo '<div class="columnTimeReportContainer">' . substr($dateTimeReport, 0, -3) . '</div>';
+                                    echo '<div class="columnTimeReportContainer">' . substr($dateTimeRearmement, 0, -3) . '</div>';
+                                    echo '<div class="columnTimeReportContainer">';
                                     echo '<section class="causeReportContainer">';
                                     if ($temperature)
                                     {
-                                        echo '<div class="rowReportContainer">Temperature</div>';
+                                        echo '<div class="columnTimeReportContainer">Temperature</div>';
                                     }
                                     if ($humidity)
                                     {
-                                        echo '<div class="rowReportContainer">Humidity</div>';
+                                        echo '<div class="columnTimeReportContainer">Humidity</div>';
                                     }
                                     if ($acceleration)
                                     {
-                                        echo '<div class="rowReportContainer">Acceleration</div>';
+                                        echo '<div class="columnTimeReportContainer">Acceleration</div>';
                                     }
                                     echo '</section>';
 				                    echo '</div>';
-                                    echo '<div class="rowReportContainer">' . $comment . '</div>';
+                                    echo '<div class="columnReportContainer">' . $comment . '</div>';
 				                    echo '</div>';
                                 }
                             ?>
                         </div>
-                    </section>
-                </section>
-                <section class="rightBodyContainer">
-                    <section class="titleHistoricContainer">Past days</section>
-                    <section class="contentHistoricContainer">
-                    <?php
-                        $day_x = new DateTime($outputGetFirstReport['date_time_report']);
-                        $day_x_1 = clone $day_x;
-                        $day_x_1->modify('+1 day');
-                        $getNbReportDay = 'SELECT COUNT(*) AS "nb_reports" FROM reports WHERE date_time_report >= "'.$day_x->format('Y-m-d').'" AND date_time_report < "'.$day_x_1->format('Y-m-d').'"';
-                        $requestGetNbReportDay = $bddConn->query($getNbReportDay);
-                        $outputGetNbReportDay = $requestGetNbReportDay->fetch();
-                        $nb_days = 0;
-                        while ($outputGetNbReportDay['nb_reports'] != 0)
-                        {
-                    ?>
-                        <div class="itemHistoricContainer">
-                            <div class="dayHistoricContainer"><?php echo $daysOfTheWeek[date("w", strtotime($day_x->format('Y-m-d')))] . ' ' . $day_x->format('d') . ' ' . $monthOfTheYear[intval($day_x->format('m'))]; ?></div>
-                            <div><?php echo $outputGetNbReportDay['nb_reports']; ?></div>
-                            <div><img src="assets/images/report_icon.png" class="iconHistoric" id="reportHistoricIcon<?php echo $nb_days; ?>"/></div>
-                        </div>
-                        <script type="text/javascript">
-                            datesHistoric.push(<?php echo json_encode($day_x->format('Y-m-d')); ?>)
-                            var nb_days = <?php echo json_encode($nb_days); ?>;
-                            var valueRep = <?php echo json_encode($outputGetAvgDay['nb_reports']); ?>;
-                            document.getElementById("reportHistoricIcon" + nb_days).src = (valueRep > 50) ? "assets/images/report_icon.png" : "assets/images/report_icon.png";
-                        </script>
-                    <?php
-                            $day_x->modify('-1 day');
-                            $day_x_1->modify('-1 day');
-                            $getNbReportDay = 'SELECT COUNT(*) AS "nb_reports" FROM reports WHERE date_time_report >= "'.$day_x->format('Y-m-d').'" AND date_time_report < "'.$day_x_1->format('Y-m-d').'"';
-                            $requestGetNbReportDay = $bddConn->query($getNbReportDay);
-                            $outputGetNbReportDay = $requestGetNbReportDay->fetch();
-                            $nb_days++;
-                        }
-                    ?>
                     </section>
                 </section>
             </section>
@@ -226,158 +190,5 @@
         <script type="text/javascript" src="js/script.js"></script>
         <script type="text/javascript" src="js/report.js"></script>
         <script type="text/javascript" src="js/dimensions.js"></script>
-        <script type="text/javascript">
-            var today = new Date();
-            var dayNumber = (today.getDate() < 10) ? '0' + today.getDate() : today.getDate();
-            var realMonth = parseInt(today.getMonth()) + 1;
-            var monthNumber = (realMonth < 10) ? '0' + realMonth : realMonth;
-            var chartNbData = 0;
-            var urlRequest = urlData + '?data=report&day=' + today.getFullYear() + '-' + monthNumber + '-' + dayNumber;
-            $.ajax({
-                type: 'GET',
-                url: urlRequest,
-                success: function(data) {
-                    data = JSON.parse(data);
-                    for (var i = 0; i < 24; i++)
-                    {
-                        chartNbData++;
-                        if (data[i] != 0)
-                        {
-                            chartHourlyHum[0].push(parseFloat(data[i]));
-                        }
-                        else
-                        {
-                            chartHourlyHum[0].push(null);
-                        }
-                    }
-                }
-            });
-            setTimeout(function() {
-                const ctx_detailed_hum = document.getElementById('chart_detailed_hum0').getContext('2d');
-                const chartDetailedReport = new Chart(ctx_detailed_hum, {
-                type: 'line',
-                data: {
-                    labels: timeOfTheDay,
-                    datasets: [{
-                        label: '',
-                        data: chartHourlyHum[0],
-                        fill: false,
-                        borderColor: colors[2],
-                        pointBackgroundColor: colors[2],
-                        tension: 0.2
-                    }]
-                },
-                options: {
-                    plugins: {
-                        legend: {
-                            display: false
-                        }
-                    },
-                    scales: {
-                        x: {
-                            grid: {
-                                color: colors[5],
-                                borderColor: colors[5]
-                            },
-                            ticks: {
-                                color: colors[5],
-                            }
-                        },
-                        y: {
-                            grid: {
-                                color: colors[5],
-                                borderColor: colors[5]
-                            },
-                            ticks: {
-                                color: colors[5],
-                            }
-                        }
-                    }
-                }
-            });
-            }, 1000);
-
-            var itemHistoricContainer = document.getElementsByClassName("itemHistoricContainer");
-            itemHistoricContainer[0].style.backgroundColor = colors[4];
-
-            for (var i = 0; i < itemHistoricContainer.length; i++)
-            {
-                itemHistoricContainer[i].addEventListener("click", (function(arg) {
-                    return function() {
-                        for (var j = 0; j < itemHistoricContainer.length; j++)
-                        {
-                            itemHistoricContainer[j].style.backgroundColor = (arg != j) ? 'transparent' : colors[4];
-                        }
-                        urlRequest = urlData + '?data=report&day=' + datesHistoric[arg];
-                        $.ajax({
-                            type: 'GET',
-                            url: urlRequest,
-                            success: function(data) {
-                                data = JSON.parse(data);
-                                for (var i = 0; i < 24; i++)
-                                {
-                                    chartNbData++;
-                                    if (data[i] != 0)
-                                    {
-                                        chartHourlyHum[arg].push(parseFloat(data[i]));
-                                    }
-                                    else
-                                    {
-                                        chartHourlyHum[arg].push(null);
-                                    }
-                                }
-                                document.getElementById('chart_detailed_hum' + arg).style.display = 'block';
-                                for (var j = 0; j < itemHistoricContainer.length; j++)
-                                {
-                                    document.getElementById('chart_detailed_hum' + j).style.display = (arg != j) ? 'none' : 'block';
-                                }
-                                const ctx_detailed_hum = document.getElementById('chart_detailed_hum' + arg).getContext('2d');
-                                const chartDetailedReport = new Chart(ctx_detailed_hum, {
-                                type: 'line',
-                                data: {
-                                    labels: timeOfTheDay,
-                                    datasets: [{
-                                        label: '',
-                                        data: chartHourlyHum[arg],
-                                        fill: false,
-                                        borderColor: colors[2],
-                                        pointBackgroundColor: colors[2],
-                                        tension: 0.2
-                                    }]
-                                },
-                                options: {
-                                    plugins: {
-                                        legend: {
-                                            display: false
-                                        }
-                                    },
-                                    scales: {
-                                        x: {
-                                            grid: {
-                                                color: colors[5],
-                                                borderColor: colors[5]
-                                            },
-                                            ticks: {
-                                                color: colors[5],
-                                            }
-                                        },
-                                        y: {
-                                            grid: {
-                                                color: colors[5],
-                                                borderColor: colors[5]
-                                            },
-                                            ticks: {
-                                                color: colors[5],
-                                            }
-                                        }
-                                    }
-                                }
-                            });
-                            }
-                        });
-                    };
-                }) (i));
-            }
-        </script>
     </body>
 </html>

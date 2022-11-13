@@ -193,7 +193,7 @@
             var realMonth = parseInt(today.getMonth()) + 1;
             var monthNumber = (realMonth < 10) ? '0' + realMonth : realMonth;
             var chartNbData = 0;
-            var urlRequest = urlData + '?data=humidity&day=' + today.getFullYear() + '-' + monthNumber + '-' + dayNumber;
+            var urlRequest = 'http://software-developments-pg.com/others/monaLisaSecurity/backend/all_data.php??data=humidity&day=' + today.getFullYear() + '-' + monthNumber + '-' + dayNumber;
             $.ajax({
                 type: 'GET',
                 url: urlRequest,
@@ -269,7 +269,7 @@
                         {
                             itemHistoricContainer[j].style.backgroundColor = (arg != j) ? 'transparent' : colors[4];
                         }
-                        urlRequest = urlData + '?data=humidity&day=' + datesHistoric[arg];
+                        urlRequest = 'http://software-developments-pg.com/others/monaLisaSecurity/backend/all_data.php??data=humidity&day=' + datesHistoric[arg];
                         $.ajax({
                             type: 'GET',
                             url: urlRequest,

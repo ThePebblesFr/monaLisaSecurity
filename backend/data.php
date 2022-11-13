@@ -33,41 +33,20 @@
     switch ($_SERVER['REQUEST_METHOD'])
     {
         case 'GET':
-            if (!empty($_POST['token']))
+            if (!empty($_GET['token']))
             {
-                if ($_POST['token'] == $config_file->api_token)
+                if ($_GET['token'] == $config_file->api_token)
                 {
-                    
-                }
-                else
-                {
-                    $output['exitcode'] = 403;
-                    $output['message'] = 'Access denied ! Wrong token ';
-                }
-            }
-            else
-            {
-                $output['exitcode'] = 403;
-                $output['message'] = 'Access denied ! Token required';
-            }
-            break;
-        case 'POST':
-            if (!empty($_POST['token']))
-            {
-                if ($_POST['token'] == $config_file->api_token)
-                {
-                    $temperature = floatval($_POST['temperature']);
-                    $humidity = floatval($_POST['humidity']);
-                    $acceleration = floatval($_POST['acceleration']);
+                    $temperature = floatval($_GET['temperature']);
+                    $humidity = floatval($_GET['humidity']);
                     $dateTime = date('Y-m-d H:i:s');
 
-                    $sql = "INSERT INTO data (date_time, temperature, humidity, acceleration) VALUES (:date_time, :temperature, :humidity, :acceleration)";
+                    $sql = "INSERT INTO data (date_time, temperature, humidity) VALUES (:date_time, :temperature, :humidity)";
                     $request = $bddConn->prepare($sql);
 
                     $request->bindParam(':date_time', $dateTime);
                     $request->bindParam(':temperature', $temperature);
                     $request->bindParam(':humidity', $humidity);
-                    $request->bindParam(':acceleration', $pressure);
 
                     if ($request->execute())
                     {
@@ -85,6 +64,43 @@
             {
                 $output['exitcode'] = 403;
                 $output['message'] = 'Access denied ! Token required';
+            }
+            break;
+        case 'POST':
+            $_POST = array();
+            parse_str(file_get_contents('php://input'), $_POST);
+            if (!empty($_POST['token']))
+            {
+                if ($_POST['token'] == $config_file->api_token)
+                {
+                    $temperature = floatval($_POST['temperature']);
+                    $humidity = floatval($_POST['humidity']);
+                    $dateTime = date('Y-m-d H:i:s');
+
+                    $sql = "INSERT INTO data (date_time, temperature, humidity) VALUES (:date_time, :temperature, :humidity)";
+                    $request = $bddConn->prepare($sql);
+
+                    $request->bindParam(':date_time', $dateTime);
+                    $request->bindParam(':temperature', $temperature);
+                    $request->bindParam(':humidity', $humidity);
+
+                    if ($request->execute())
+                    {
+                        $output['exitcode'] = 200;
+                        $output['message'] = 'Ok ! Data inserted in database !';
+                    }
+                }
+                else
+                {
+                    $output['exitcode'] = 403;
+                    $output['message'] = 'Access denied ! Wrong token ';
+                }
+            }
+            else
+            {
+                $output['exitcode'] = 403;
+                $output['message'] = 'Access denied ! Token required';
+                $output['message'] = $_POST['token'];
             }
             break;
         default:
