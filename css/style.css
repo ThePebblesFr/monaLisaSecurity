@@ -1,17 +1,3 @@
-/*
-    __________________________________________________________________________
-   |                                                                          |
-   |                     MONA LISA SECURITY -  STYLE                          |
-   |                                                                          |
-   |    Author            :   P. GARREAU, M. JALES                            |
-   |    Status            :   Under Development                               |
-   |    Last Modification :   04/11/2022                                      |
-   |    Project           :   IoT PROJECT                                     |
-   |                                                                          |
-   |__________________________________________________________________________|
-
-*/
-
 /* ------------------- GLOBAL VARIABLES ------------------- */
 :root {
     /* Colors */
@@ -402,7 +388,7 @@ body {
 	width: 100%;
 	height: 100%;
 	z-index:1; 
-	display:block;
+	display: none;
 }
 
 .popup_home {

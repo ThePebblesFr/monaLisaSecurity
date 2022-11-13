@@ -161,7 +161,7 @@
 }
 
 .itemHistoricContainer:hover {
-    background-color: #0487E2;
+    background-color: var(--light-pink-color);
 }
 
 .iconHistoric {

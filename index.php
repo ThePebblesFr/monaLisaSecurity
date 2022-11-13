@@ -146,12 +146,15 @@
                 MQTTconnect();
             });
 
+            
+
             var loaderTemperature = document.getElementById('loaderTemperature');
             var loaderHumidity = document.getElementById('loaderHumidity');
             var loaderPressure = document.getElementById('loaderPressure');
 
             var today = new Date();
-            var dayNumber = (today.getDate() < 10) ? '0' + today.getDate() : today.getDate();
+            var dayTest = today.getDate();
+            var dayNumber = (dayTest < 10) ? '0' + dayTest  : dayTest;
             var timeOfSixLastHours = Array(today.getHours()-5 +'h', today.getHours()-4 +'h', today.getHours()-3 +'h', today.getHours()-2 +'h', today.getHours()-1 +'h', today.getHours() +'h');            
             var realMonth = parseInt(today.getMonth()) + 1;
             var monthNumber = (realMonth < 10) ? '0' + realMonth : realMonth;
@@ -165,17 +168,14 @@
                 success: function(data) {
                     
                     data = JSON.parse(data);
-                    for (var i = 6; i > 0; i--)
+                    for (var i = today.getHours()-5; i <= today.getHours(); i++)
                     {
                         chartNbData++;
-                        if (data[i] != 0)
-                        {
-                            chartHourlyTemp.push(parseFloat(data[i]));
-                        }
-                        else
-                        {
-                            chartHourlyTemp.push(null);
-                        }
+                        console.log(data[i]);
+                            if (data[i] != 0)
+                                chartHourlyTemp.push(parseFloat(data[i]));
+                            else
+                                chartHourlyTemp.push(null);
                     }
                 }
             });
@@ -239,17 +239,14 @@
                 url: urlRequest,
                 success: function(data) {
                     data = JSON.parse(data);
-                    for (var i = 6; i > 0; i--)
+                    for (var i = today.getHours()-5; i <= today.getHours(); i++)
                     {
                         chartNbData++;
+                        console.log(data[i]);
                         if (data[i] != 0)
-                        {
                             chartHourlyHum.push(parseFloat(data[i]));
-                        }
                         else
-                        {
                             chartHourlyHum.push(null);
-                        }
                     }
                 }
             });
@@ -264,8 +261,8 @@
                         label: '',
                         data: chartHourlyHum,
                         fill: false,
-                        borderColor: colors[5],
-                        pointBackgroundColor: colors[5],
+                        borderColor: colors[0],
+                        pointBackgroundColor: colors[0],
                         tension: 0.2
                     }]
                 },

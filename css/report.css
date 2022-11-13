@@ -104,7 +104,7 @@
 
 .leftBottomBodyContainer {
     width: 88%;
-    height: 45vh;
+    height: 55vh;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -162,7 +162,7 @@
 }
 
 .itemHistoricContainer:hover {
-    background-color: #0487E2;
+    background-color: var(--light-pink-color);
 }
 
 .iconHistoric {
@@ -188,38 +188,103 @@
 	align-items: center;
 }
 
-.productsHeaderMeilleurConsoOverContainer {
-	background-color: #5c011f;
+.titleReportContainer {
+    width: 80%;
+    text-align: center;
+    font-size: 35px;
+    color: var(--green-color);
+}
+
+.reportHeaderOverContainer {
+	background-color: var(--green-color);
 	width: 90%;
 	display: flex;
 	flex-direction: column;
 	align-items: flex-start;
 }
 
-.productHeaderMeilleurConsoContainer {
+.reportHeaderContainer {
 	width: calc(100% - 12px);
 	padding: 5px;
-	color: #fef9eb;
-	border: 1px solid #5c011f;
+	color: var(--white-color);
+	border: 1px solid var(--green-color);
 	display: flex;
 	flex-direction: row;
 	justify-content: flex-start;
 }
 
-.nameMeilleurConsoContainer {
-	width: calc(80% - 12px);
+.rowHeaderContainer{
+    width: 25%;
 	text-align: center;
+    font-size: 18px;
 }
 
-.consoMeilleurConsoContainer {
+.nameColumnHeaderContainer{
 	width: 25%;
 	text-align: center;
 }
 
-.meilleurConsosContainer {
+.listReportContainer {
 	width: 90%;
 	overflow-y: auto;
 	display: flex;
 	flex-direction: column;
 	justify-content: flex-start;
+}
+
+.reportContainer {
+	padding: 5px;
+	background-color: var(--light-green-color);
+	color: var(--green-color);
+	border: 1px solid var(--green-color);
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	align-items: center;
+	font-size: 18px;
+}
+
+.reportContainer:nth-child(1) {
+	background-color: var(--light-pink-color);
+}
+
+.reportContainer:nth-child(2) {
+	background-color: var(--grey-color);
+}
+
+.reportContainer:nth-child(4) {
+	background-color: var(--light-pink-color);
+}
+
+.reportContainer:nth-child(5) {
+	background-color: var(--grey-color);
+}
+
+.reportContainer:nth-child(7) {
+	background-color: var(--light-pink-color);
+}
+
+.reportContainer:nth-child(8) {
+	background-color: var(--grey-color);
+}
+
+.reportContainer:nth-child(10) {
+	background-color: var(--light-pink-color);
+}
+
+.reportContainer:nth-child(11) {
+	background-color: var(--grey-color);
+}
+
+.rowReportContainer{
+	width: 25%;
+	text-align: center;
+    font-size: 18px;
+}
+
+.causeReportContainer{
+    width: 25%;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
 }

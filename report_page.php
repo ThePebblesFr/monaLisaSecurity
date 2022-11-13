@@ -19,13 +19,14 @@
         data_time_rearmement
         temperature
         humidity
-        acceleration*/
+        acceleration
+        comment*/
 
     $daysOfTheWeek = array('Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat');
     $monthOfTheYear = array('Zebre', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec');
 
     // Get number of Reports
-    $getNbReports = "SELECT COUNT(*) AS 'nb_reports' FROM reports";
+    $getNbReports = 'SELECT COUNT(*) AS "nb_reports" FROM reports';
     $requestGetNbReports = $bddConn->query($getNbReports);
     $outputGetNbReports = $requestGetNbReports->fetch();
 
@@ -55,6 +56,11 @@
     $getFirstDay = 'SELECT * FROM data ORDER BY date_time DESC LIMIT 1';
     $requestGetFirstDay = $bddConn->query($getFirstDay);
     $outputGetFirstDay = $requestGetFirstDay->fetch();
+
+    // Get first report
+    $getFirstReport = 'SELECT * FROM reports ORDER BY date_time_report DESC LIMIT 1';
+    $requestGetFirstReport = $bddConn->query($getFirstReport);
+    $outputGetFirstReport = $requestGetFirstReport->fetch();
 ?>
 <!DOCTYPE html>
 <html>
@@ -113,7 +119,7 @@
                                 <img src="assets/images/report_icon_colored.png" class="iconDetailedPage"/>
                             </section>
                             <section class="dataItemDetailedPageContainer">
-                                <div class="celsiusData" id="reportValue"><?php echo $outputGetNbReports['nb_reports']; ?></div>
+                                <div class="celsiusData" id="reportValue"><?php echo $outputGetNbReports['nb_reports']; ?> reports</div>
                             </section>
                         </div>
                         <section class="dateTimeDetailedPageContainer">
@@ -122,78 +128,103 @@
                         </section>
                     </section>
                     <section class="leftBottomBodyContainer">
-                        <h1>Meilleur Consommateur</h1>
-                        <div class="productsHeaderMeilleurConsoOverContainer"><div class="productHeaderMeilleurConsoContainer" id="header_meilleur_consommateur"><div class="nameMeilleurConsoContainer">Cotisant</div><div class="consoMeilleurConsoContainer">Total</div></div></div>';
-                        <div class="meilleurConsosContainer" id="products_meilleur_consommateur">
-                           <?php/*
-                                $day_x = new DateTime($outputGetFirstDay['date_time']);
-                                $day_x_1 = clone $day_x;
-                                $day_x_1->modify('+1 day');
-                                $getAvgDay = 'SELECT AVG(humidity) AS "avg_humidity" FROM data WHERE date_time >= "'.$day_x->format('Y-m-d').'" AND date_time < "'.$day_x_1->format('Y-m-d').'"';
-                                $requestGetAvgDay = $bddConn->query($getAvgDay);
-                                $outputGetAvgDay = $requestGetAvgDay->fetch();
-                                $nb_days = 0;
-                                while ($outputGetAvgDay['avg_humidity'] != NULL)
+                        <section class="titleReportContainer">REPORTS</section>
+                        <div class="reportHeaderOverContainer">
+                            <div class="reportHeaderContainer">
+                                <section class="rowHeaderContainer">
+                                    <div class="nameColumnHeaderContainer">Date</div>
+                                    <div class="nameColumnHeaderContainer">Problem</div>
+                                </section>
+                                <section class="rowHeaderContainer">
+                                    <div class="nameColumnHeaderContainer">Date</div>
+                                    <div class="nameColumnHeaderContainer">Rearming</div>
+                                </section>
+                                <section class="rowHeaderContainer">
+                                    <div class="nameColumnHeaderContainer">Cause</div>
+                                </section>
+                                <section class="rowHeaderContainer">
+                                    <div class="nameColumnHeaderContainer">Comment</div>
+                                </section>
+                            </div>
+                        </div>
+                        <div class="listReportContainer" id="products_meilleur_consommateur">
+                           <?php
+                                $getListReportDaily = 'SELECT * FROM reports WHERE date_time_report >= "'.$day.'" AND date_time_report < "'.$day_plus_1.'"';
+                                $requestGetListReportDaily = $bddConn->query($getListReportDaily);
+                                while ($outputGetListReportDaily = $requestGetListReportDaily->fetch()) 
                                 {
-                                    echo '<canvas id="chart_detailed_hum'.$nb_days.'"></canvas>';
-                                    $day_x->modify('-1 day');
-                                    $day_x_1->modify('-1 day');
-                                    $getAvgDay = 'SELECT AVG(humidity) AS "avg_humidity" FROM data WHERE date_time >= "'.$day_x->format('Y-m-d').'" AND date_time < "'.$day_x_1->format('Y-m-d').'"';
-                                    $requestGetAvgDay = $bddConn->query($getAvgDay);
-                                    $outputGetAvgDay = $requestGetAvgDay->fetch();
-                                    
-                                    ?>
-                                    <script type="text/javascript">
-                                        var nb_days_1 = <?php echo json_encode($nb_days); ?>;
-                                        document.getElementById('chart_detailed_hum' + nb_days_1).style.display = (nb_days_1 > 0) ? 'none' : 'block';
-                                        chartHourlyHum.push(Array());
-                                    </script>
-                                    <?php
-                                    $nb_days++;
-                                }*/
+                                    echo '<div class="reportContainer">';
+                                    $dateTimeReport = $outputGetListReportDaily['date_time_report'];
+                                    $dateTimeRearmement = $outputGetListReportDaily['date_time_rearmement'];
+                                    $temperature = $outputGetListReportDaily['temperature'];
+                                    $humidity = $outputGetListReportDaily['humidity'];
+                                    $acceleration = $outputGetListReportDaily['acceleration'];
+                                    $comment = $outputGetListReportDaily['comment'];
+                                    echo '<div class="rowReportContainer">' . substr($dateTimeReport, 11, -3) . '</div>';
+                                    echo '<div class="rowReportContainer">' . substr($dateTimeRearmement, 11, -3) . '</div>';
+                                    echo '<div class="rowReportContainer">';
+                                    echo '<section class="causeReportContainer">';
+                                    if ($temperature)
+                                    {
+                                        echo '<div class="rowReportContainer">Temperature</div>';
+                                    }
+                                    if ($humidity)
+                                    {
+                                        echo '<div class="rowReportContainer">Humidity</div>';
+                                    }
+                                    if ($acceleration)
+                                    {
+                                        echo '<div class="rowReportContainer">Acceleration</div>';
+                                    }
+                                    echo '</section>';
+				                    echo '</div>';
+                                    echo '<div class="rowReportContainer">' . $comment . '</div>';
+				                    echo '</div>';
+                                }
                             ?>
+                        </div>
                     </section>
                 </section>
                 <section class="rightBodyContainer">
                     <section class="titleHistoricContainer">Past days</section>
                     <section class="contentHistoricContainer">
-                    <?php/*
-                        $day_x = new DateTime($outputGetFirstDay['date_time']);
+                    <?php
+                        $day_x = new DateTime($outputGetFirstReport['date_time_report']);
                         $day_x_1 = clone $day_x;
                         $day_x_1->modify('+1 day');
-                        $getAvgDay = 'SELECT AVG(humidity) AS "avg_humidity" FROM data WHERE date_time >= "'.$day_x->format('Y-m-d').'" AND date_time < "'.$day_x_1->format('Y-m-d').'"';
-                        $requestGetAvgDay = $bddConn->query($getAvgDay);
-                        $outputGetAvgDay = $requestGetAvgDay->fetch();
+                        $getNbReportDay = 'SELECT COUNT(*) AS "nb_reports" FROM reports WHERE date_time_report >= "'.$day_x->format('Y-m-d').'" AND date_time_report < "'.$day_x_1->format('Y-m-d').'"';
+                        $requestGetNbReportDay = $bddConn->query($getNbReportDay);
+                        $outputGetNbReportDay = $requestGetNbReportDay->fetch();
                         $nb_days = 0;
-                        while ($outputGetAvgDay['avg_humidity'] != NULL)
+                        while ($outputGetNbReportDay['nb_reports'] != 0)
                         {
                     ?>
                         <div class="itemHistoricContainer">
                             <div class="dayHistoricContainer"><?php echo $daysOfTheWeek[date("w", strtotime($day_x->format('Y-m-d')))] . ' ' . $day_x->format('d') . ' ' . $monthOfTheYear[intval($day_x->format('m'))]; ?></div>
-                            <div><?php echo number_format($outputGetAvgDay['avg_humidity'], 2); ?>%</div>
-                            <div><img src="assets/images/report_icon.png" class="iconHistoric" id="humidityHistoricIcon<?php echo $nb_days; ?>"/></div>
+                            <div><?php echo $outputGetNbReportDay['nb_reports']; ?></div>
+                            <div><img src="assets/images/report_icon.png" class="iconHistoric" id="reportHistoricIcon<?php echo $nb_days; ?>"/></div>
                         </div>
                         <script type="text/javascript">
                             datesHistoric.push(<?php echo json_encode($day_x->format('Y-m-d')); ?>)
                             var nb_days = <?php echo json_encode($nb_days); ?>;
-                            var valueHum = <?php echo json_encode($outputGetAvgDay['avg_humidity']); ?>;
-                            document.getElementById("humidityHistoricIcon" + nb_days).src = (valueHum > 50) ? "assets/images/report_icon.png" : "assets/images/report_icon.png";
+                            var valueRep = <?php echo json_encode($outputGetAvgDay['nb_reports']); ?>;
+                            document.getElementById("reportHistoricIcon" + nb_days).src = (valueRep > 50) ? "assets/images/report_icon.png" : "assets/images/report_icon.png";
                         </script>
                     <?php
                             $day_x->modify('-1 day');
                             $day_x_1->modify('-1 day');
-                            $getAvgDay = 'SELECT AVG(humidity) AS "avg_humidity" FROM data WHERE date_time >= "'.$day_x->format('Y-m-d').'" AND date_time < "'.$day_x_1->format('Y-m-d').'"';
-                            $requestGetAvgDay = $bddConn->query($getAvgDay);
-                            $outputGetAvgDay = $requestGetAvgDay->fetch();
+                            $getNbReportDay = 'SELECT COUNT(*) AS "nb_reports" FROM reports WHERE date_time_report >= "'.$day_x->format('Y-m-d').'" AND date_time_report < "'.$day_x_1->format('Y-m-d').'"';
+                            $requestGetNbReportDay = $bddConn->query($getNbReportDay);
+                            $outputGetNbReportDay = $requestGetNbReportDay->fetch();
                             $nb_days++;
-                        }*/
+                        }
                     ?>
                     </section>
                 </section>
             </section>
         </section>
         <script type="text/javascript" src="js/script.js"></script>
-        <script type="text/javascript" src="js/humidity.js"></script>
+        <script type="text/javascript" src="js/report.js"></script>
         <script type="text/javascript" src="js/dimensions.js"></script>
         <script type="text/javascript">
             var today = new Date();
@@ -201,7 +232,7 @@
             var realMonth = parseInt(today.getMonth()) + 1;
             var monthNumber = (realMonth < 10) ? '0' + realMonth : realMonth;
             var chartNbData = 0;
-            var urlRequest = urlData + '?data=humidity&day=' + today.getFullYear() + '-' + monthNumber + '-' + dayNumber;
+            var urlRequest = urlData + '?data=report&day=' + today.getFullYear() + '-' + monthNumber + '-' + dayNumber;
             $.ajax({
                 type: 'GET',
                 url: urlRequest,
@@ -223,7 +254,7 @@
             });
             setTimeout(function() {
                 const ctx_detailed_hum = document.getElementById('chart_detailed_hum0').getContext('2d');
-                const chartDetailedHumidity = new Chart(ctx_detailed_hum, {
+                const chartDetailedReport = new Chart(ctx_detailed_hum, {
                 type: 'line',
                 data: {
                     labels: timeOfTheDay,
@@ -277,7 +308,7 @@
                         {
                             itemHistoricContainer[j].style.backgroundColor = (arg != j) ? 'transparent' : colors[4];
                         }
-                        urlRequest = urlData + '?data=humidity&day=' + datesHistoric[arg];
+                        urlRequest = urlData + '?data=report&day=' + datesHistoric[arg];
                         $.ajax({
                             type: 'GET',
                             url: urlRequest,
@@ -301,7 +332,7 @@
                                     document.getElementById('chart_detailed_hum' + j).style.display = (arg != j) ? 'none' : 'block';
                                 }
                                 const ctx_detailed_hum = document.getElementById('chart_detailed_hum' + arg).getContext('2d');
-                                const chartDetailedHumidity = new Chart(ctx_detailed_hum, {
+                                const chartDetailedReport = new Chart(ctx_detailed_hum, {
                                 type: 'line',
                                 data: {
                                     labels: timeOfTheDay,

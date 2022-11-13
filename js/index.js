@@ -28,7 +28,6 @@ var timeContainer = document.getElementById('timeContainer');
 
 var temperatureValue = document.getElementById('temperatureValue');
 var humidityValue = document.getElementById('humidityValue');
-var reportValue = document.getElementById('reportValue');
 
 var btnClose = document.getElementById('btnClose');
 var overlay_home = document.getElementById('overlay_home');
@@ -39,6 +38,8 @@ var mqtt;
 var reconnectTimeout = 2000;
 var port = 8000;
 var topicStr = "Pierre/Temp";
+
+var connected = false;
 
 /* ----------------------------------------------------------------------------
                                     MAIN
@@ -74,6 +75,18 @@ setInterval(function() {
 }, 1000);
 
 // Popup ----------------------------------------------------------------------
+setInterval(function() {
+    console.log(connected);
+}, 100);
+
+setInterval(function() {
+
+    if (!connected)
+    {
+        overlay_home.style.display = 'block';
+        popup_home.style.display = 'block';
+    }
+}, 5000);
 
 btnClose.addEventListener('click', function() {
     overlay_home.style.display = 'none';
@@ -109,12 +122,14 @@ function MQTTconnect() {
 	mqtt.connect(options);
 }
 function onConnect() {
+    connected = true;
 	$('#status').val('Connected to host ');
 	// Connection succeeded; subscribe to our topic
 	mqtt.subscribe(topicStr, {qos: 0});
 	$('#topic').val(topicStr)
 }
 function onConnectionLost(response) {
+    connected = false;
 	setTimeout(MQTTconnect, reconnectTimeout);
 	$('#status').val("connection lost: " + response.errorMessage + ". Reconnecting");
 };
@@ -123,7 +138,6 @@ function onMessageArrived(message) {
 	var payload = message.payloadString;
     
     payload = JSON.parse(payload);
-
     temperatureValue.innerText = payload.temperature + "°C";
     humidityValue.innerText = payload.humidity + "%";
 
